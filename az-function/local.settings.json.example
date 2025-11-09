@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "DISCOGS_TOKEN": "replace-with-your-discogs-token",
+    "X_API_KEY": "change-me",
+    "USER_AGENT": "DiscogsAgent/0.1 (+https://github.com/JohnDelisle/DiscogsAgent)"
+  }
+}

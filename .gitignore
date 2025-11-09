@@ -1,0 +1,59 @@
+# DiscogsAgent repository ignore rules
+
+# Build/distribution artifacts
+/dist/
+/dist/**
+*.zip
+
+# Azure Functions local settings (contains secrets)
+az-function/local.settings.json
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python virtual environments
+.env/
+.venv/
+venv/
+ENV/
+
+# Installed packages staging for deployment
+az-function/.python_packages/
+.python_packages/
+
+# Logs and coverage
+*.log
+coverage.xml
+htmlcov/
+
+# Editor/IDE settings
+.vscode/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+.pytest_cache/
+
+# Temporary staging folders created by deploy script
+/dist/stage-*/
+
+# PowerShell
+*.ps1.tmp
+
+# Node (if later added for tooling)
+node_modules/
+
+# Archive extracts
+*.tar
+*.gz
+*.tgz
+*.zip
+
+# Misc
+*.bak
+*.tmp

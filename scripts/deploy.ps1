@@ -102,6 +102,7 @@ Compress-Archive -Path (Join-Path $stageDir '*') -DestinationPath $ZipPath -Forc
 Write-Host "Ensuring Kudu build is enabled (Oryx)" -ForegroundColor Yellow
 az functionapp config appsettings set --resource-group $ResourceGroup --name $functionAppName --settings SCM_DO_BUILD_DURING_DEPLOYMENT=1 ENABLE_ORYX_BUILD=true | Out-Null
 az functionapp config appsettings set --resource-group $ResourceGroup --name $functionAppName --settings WEBSITE_RUN_FROM_PACKAGE=1 | Out-Null
+az functionapp config appsettings set --resource-group $ResourceGroup --name $functionAppName --settings DEBUG_REQUEST_LOG=true | Out-Null
 
 Write-Host "Deploying zip..." -ForegroundColor Yellow
 az functionapp deployment source config-zip --resource-group $ResourceGroup --name $functionAppName --src $ZipPath
@@ -110,3 +111,35 @@ az functionapp deployment source config-zip --resource-group $ResourceGroup --na
 az functionapp restart --resource-group $ResourceGroup --name $functionAppName | Out-Null
 
 Write-Host "Deployment complete." -ForegroundColor Green
+
+# 3) Generate an OpenAPI spec bound to this function app host for ChatGPT Action import
+try {
+  $hostName = az functionapp show --resource-group $ResourceGroup --name $functionAppName --query defaultHostName -o tsv
+  if ($hostName) {
+    $proxySpecIn = Join-Path $root "openapi/proxy.yaml"
+    if (Test-Path $proxySpecIn) {
+      $proxySpecOut = Join-Path $distDir "proxy.published.yaml"
+      $specText = Get-Content -Path $proxySpecIn -Raw
+      # 1) Handle legacy server variable block if present
+      if ($specText -match 'url:\s*https://\{host\}/api') {
+        $pattern = 'servers:\s*- url:\s*https://\{host\}/api\s*variables:\s*host:\s*default:\s*[^\r\n]+'
+        $replacement = "servers:`n  - url: https://$hostName/api"
+        $specText = [regex]::Replace($specText, $pattern, $replacement, 'IgnoreCase, Singleline')
+      }
+      # 2) Replace placeholder token format {{FUNCTION_HOST}} if present
+      $specText = $specText -replace 'https://\{\{FUNCTION_HOST\}\}/api', ("https://{0}/api" -f $hostName)
+      # 3) If still contains the raw placeholder inside URL, swap it
+      $specText = $specText -replace '\{\{FUNCTION_HOST\}\}', $hostName
+      $updated = $specText
+      Set-Content -Path $proxySpecOut -Value $updated -NoNewline
+      Write-Host "Published OpenAPI spec generated: $proxySpecOut" -ForegroundColor Cyan
+      Write-Host "Import this file into your ChatGPT Action, and set the API key header there (x-api-key)." -ForegroundColor DarkCyan
+    } else {
+      Write-Warning "OpenAPI spec not found at $proxySpecIn; skipping published spec generation."
+    }
+  } else {
+    Write-Warning "Could not resolve function host name; skipping OpenAPI published spec generation."
+  }
+} catch {
+  Write-Warning "Failed to generate OpenAPI published spec: $($_.Exception.Message)"
+}

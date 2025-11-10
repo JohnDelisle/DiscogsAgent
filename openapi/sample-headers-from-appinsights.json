@@ -1,0 +1,365 @@
+http_request_debug: {
+    "method": "GET",
+    "upstream_path": "/artists/108713",
+    "query": {},
+    "headers": {
+        "client-ip": "23.98.186.78:26650",
+        "x-forwarded-proto": "https",
+        "traceparent": "00-69113e92000000000a790629e4e32824-496857e74fb17a2f-00",
+        "x-waws-unencoded-url": "/api/artists/108713",
+        "accept-encoding": "gzip, deflate, br",
+        "disguised-host": "jmd-discogs-func.azurewebsites.net",
+        "accept": "*/*",
+        "x-request-id": "4198b4ec-b8a4-4e75-8007-59071495f6ec/k7cv",
+        "x-api-key": "***",
+        "x-forwarded-for": "23.98.186.78:26650",
+        "connection": "keep-alive",
+        "was-default-hostname": "jmd-discogs-func.azurewebsites.net",
+        "x-datadog-sampling-priority": "-1",
+        "x-appservice-proto": "https",
+        "max-forwards": "10",
+        "x-original-url": "/api/artists/108713",
+        "content-type": "application/json",
+        "user-agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; ChatGPT-User/1.0; +https://openai.com/bot",
+        "x-datadog-parent-id": "10215437452720131855",
+        "host": "jmd-discogs-func.azurewebsites.net",
+        "openai-ephemeral-user-id": "7e455529-4a5d-5972-ac8f-b65ad90f0a36",
+        "x-forwarded-tlsversion": "1.3",
+        "x-arr-ssl": "2048|256|CN=Microsoft Azure RSA TLS Issuing CA 08, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US",
+        "openai-conversation-id": "60169e16-a512-5ff5-a306-eb8a6875a455",
+        "x-arr-log-id": "efbf12e7-fd13-46b0-941a-2586f8158821",
+        "openai-gpt-id": "g-690e1d57d5e48191831bcac9e291cd9a",
+        "x-datadog-tags": "_dd.p.tid=69113e9200000000,_dd.p.dm=-3",
+        "x-site-deployment-id": "jmd-discogs-func",
+        "content-length": "0",
+        "tracestate": "dd=s:-1;p:67e94417e4aabd75;t.dm:-3",
+        "x-datadog-trace-id": "754641189564786724"
+    },
+    "x_client_trace_id": None,
+    "x_operation_hash": None
+}
+
+
+{
+    "response_data": {
+        "pagination": {
+            "page": 1,
+            "pages": 1,
+            "per_page": 50,
+            "items": 5,
+            "urls": {}
+        },
+        "results": [
+            {
+                "country": "Canada",
+                "year": "1995",
+                "format": [
+                    "CD",
+                    "Album"
+                ],
+                "label": [
+                    "Elektra",
+                    "Warner Music Canada Ltd",
+                    "Elektra Entertainment Group",
+                    "Elektra Entertainment Group",
+                    "Cinram"
+                ],
+                "type": "release",
+                "genre": [
+                    "Electronic",
+                    "Jazz",
+                    "Pop"
+                ],
+                "style": [
+                    "Trip Hop",
+                    "Downtempo",
+                    "IDM",
+                    "Big Beat",
+                    "Big Band",
+                    "Experimental",
+                    "Leftfield"
+                ],
+                "id": 593743,
+                "barcode": [
+                    "075596174022",
+                    "0 7559-61740-2 2",
+                    "MFG BY CINRAM #950531EE CD-61740 L381",
+                    "L381",
+                    "IFPI 6000",
+                    "MFG BY CINRAM #950531EE CD-61740 L382",
+                    "L382",
+                    "IFPI 6000",
+                    "16"
+                ],
+                "user_data": {
+                    "in_wantlist": false,
+                    "in_collection": false
+                },
+                "master_id": 36251,
+                "master_url": "https://api.discogs.com/masters/36251",
+                "uri": "/release/593743-Bj%C3%B6rk-Post",
+                "catno": "CD 61740",
+                "title": "Björk - Post",
+                "thumb": "https://i.discogs.com/M6WyMr43yNvEPAvT-Mzv3yXj9VjE4ZwHdDUVLk2YtF0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU5Mzc0/My0xNjk2MzkzMzE3/LTU5MzkuanBlZw.jpeg",
+                "cover_image": "https://i.discogs.com/vQwuXkvUc7RKfHzCjUMBTS1F9IebkFdv9oROEKt4VFQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU5Mzc0/My0xNjk2MzkzMzE3/LTU5MzkuanBlZw.jpeg",
+                "resource_url": "https://api.discogs.com/releases/593743",
+                "community": {
+                    "want": 297,
+                    "have": 950
+                },
+                "format_quantity": 1,
+                "formats": [
+                    {
+                        "name": "CD",
+                        "qty": "1",
+                        "descriptions": [
+                            "Album"
+                        ]
+                    }
+                ]
+            },
+            {
+                "country": "Canada",
+                "year": "1995",
+                "format": [
+                    "CD",
+                    "Album",
+                    "Club Edition"
+                ],
+                "label": [
+                    "Elektra",
+                    "Columbia House",
+                    "Elektra Entertainment Group",
+                    "Elektra Entertainment Group",
+                    "Cinram"
+                ],
+                "type": "release",
+                "genre": [
+                    "Electronic"
+                ],
+                "style": [
+                    "Progressive House",
+                    "Leftfield",
+                    "Big Beat"
+                ],
+                "id": 2666247,
+                "barcode": [
+                    "7 7749-926048 1 02",
+                    "#950531EE CD-61740  MFG BY CINRAM",
+                    "L382",
+                    "IFPI 6000"
+                ],
+                "user_data": {
+                    "in_wantlist": false,
+                    "in_collection": false
+                },
+                "master_id": 36251,
+                "master_url": "https://api.discogs.com/masters/36251",
+                "uri": "/release/2666247-Bj%C3%B6rk-Post",
+                "catno": "E2 61740",
+                "title": "Björk - Post",
+                "thumb": "https://i.discogs.com/uVMJ6kCQZSLG29JRomtRiI-jdmJj5XDHrKyxjHNhB5k/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NjYy/NDctMTI5NTY5MzQy/Ni5qcGVn.jpeg",
+                "cover_image": "https://i.discogs.com/vcWYvA73cGjL0jObiR8jNcnUuMK9d09R7p7c5gGy1t0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NjYy/NDctMTI5NTY5MzQy/Ni5qcGVn.jpeg",
+                "resource_url": "https://api.discogs.com/releases/2666247",
+                "community": {
+                    "want": 276,
+                    "have": 382
+                },
+                "format_quantity": 1,
+                "formats": [
+                    {
+                        "name": "CD",
+                        "qty": "1",
+                        "descriptions": [
+                            "Album",
+                            "Club Edition"
+                        ]
+                    }
+                ]
+            },
+            {
+                "country": "Canada",
+                "year": "1995",
+                "format": [
+                    "Cassette",
+                    "Album"
+                ],
+                "label": [
+                    "Elektra",
+                    "Warner Music Canada Ltd",
+                    "Elektra Entertainment Group",
+                    "Elektra Entertainment Group"
+                ],
+                "type": "release",
+                "genre": [
+                    "Electronic",
+                    "Jazz",
+                    "Pop"
+                ],
+                "style": [
+                    "IDM",
+                    "Big Band",
+                    "Trip Hop",
+                    "Experimental",
+                    "Downtempo",
+                    "Big Beat",
+                    "Leftfield"
+                ],
+                "id": 29636482,
+                "barcode": [
+                    "075596174046",
+                    "0 7559-61740-4 6"
+                ],
+                "user_data": {
+                    "in_wantlist": false,
+                    "in_collection": false
+                },
+                "master_id": 36251,
+                "master_url": "https://api.discogs.com/masters/36251",
+                "uri": "/release/29636482-Bj%C3%B6rk-Post",
+                "catno": "96 17404",
+                "title": "Björk - Post",
+                "thumb": "https://i.discogs.com/C9dtUPobc8Te9tj3sACTFzMzNMamcB9-IGJZPB30g5Y/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5NjM2/NDgyLTE3MDY1NDcz/NjEtMTAzMy5qcGVn.jpeg",
+                "cover_image": "https://i.discogs.com/AaK3fKuyQS6MH6n0ha-TWN0Q_7DAEktBx14vD7TIngM/rs:fit/g:sm/q:90/h:450/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5NjM2/NDgyLTE3MDY1NDcz/NjEtMTAzMy5qcGVn.jpeg",
+                "resource_url": "https://api.discogs.com/releases/29636482",
+                "community": {
+                    "want": 59,
+                    "have": 4
+                },
+                "format_quantity": 1,
+                "formats": [
+                    {
+                        "name": "Cassette",
+                        "qty": "1",
+                        "descriptions": [
+                            "Album"
+                        ]
+                    }
+                ]
+            },
+            {
+                "country": "Canada",
+                "year": "1995",
+                "format": [
+                    "Cassette",
+                    "Album"
+                ],
+                "label": [
+                    "Elektra",
+                    "Warner Music Canada Ltd",
+                    "Elektra Entertainment Group",
+                    "Elektra Entertainment Group"
+                ],
+                "type": "release",
+                "genre": [
+                    "Electronic",
+                    "Jazz",
+                    "Pop"
+                ],
+                "style": [
+                    "IDM",
+                    "Big Band",
+                    "Trip Hop",
+                    "Experimental",
+                    "Downtempo",
+                    "Big Beat",
+                    "Leftfield"
+                ],
+                "id": 1810646,
+                "barcode": [
+                    "075596174046",
+                    "0 7559-61740-4 6"
+                ],
+                "user_data": {
+                    "in_wantlist": false,
+                    "in_collection": false
+                },
+                "master_id": 36251,
+                "master_url": "https://api.discogs.com/masters/36251",
+                "uri": "/release/1810646-Bj%C3%B6rk-Post",
+                "catno": "96 17404",
+                "title": "Björk - Post",
+                "thumb": "https://i.discogs.com/4CY7_5U5zXqRcS7ZJDMocJTKI3pZFsGd8Qp8AQRHkt4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4MTA2/NDYtMTI0NTI1ODgz/OC5qcGVn.jpeg",
+                "cover_image": "https://i.discogs.com/gpzr1EPUxPK98ow-6GB7QO2yqymL_3--R-vAi7Rm5vg/rs:fit/g:sm/q:90/h:642/w:412/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4MTA2/NDYtMTI0NTI1ODgz/OC5qcGVn.jpeg",
+                "resource_url": "https://api.discogs.com/releases/1810646",
+                "community": {
+                    "want": 283,
+                    "have": 79
+                },
+                "format_quantity": 1,
+                "formats": [
+                    {
+                        "name": "Cassette",
+                        "qty": "1",
+                        "descriptions": [
+                            "Album"
+                        ]
+                    }
+                ]
+            },
+            {
+                "country": "Canada",
+                "year": "1995",
+                "format": [
+                    "Cassette",
+                    "Album",
+                    "Club Edition"
+                ],
+                "label": [
+                    "Elektra",
+                    "Columbia House",
+                    "Elektra Entertainment Group",
+                    "Elektra Entertainment Group"
+                ],
+                "type": "release",
+                "genre": [
+                    "Electronic",
+                    "Jazz",
+                    "Pop"
+                ],
+                "style": [
+                    "IDM",
+                    "Big Band",
+                    "Trip Hop",
+                    "Experimental",
+                    "Downtempo",
+                    "Big Beat",
+                    "Leftfield"
+                ],
+                "id": 2286193,
+                "barcode": [
+                    "7749-926048 04"
+                ],
+                "user_data": {
+                    "in_wantlist": false,
+                    "in_collection": false
+                },
+                "master_id": 36251,
+                "master_url": "https://api.discogs.com/masters/36251",
+                "uri": "/release/2286193-Bj%C3%B6rk-Post",
+                "catno": "E4 61740",
+                "title": "Björk - Post",
+                "thumb": "https://i.discogs.com/ezgmzDtSMUGzcqOAgSkmtoVTERxOI0_ua0nwmR_J_98/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyODYx/OTMtMTUzODMxNTg4/Ni0xNTIwLmpwZWc.jpeg",
+                "cover_image": "https://i.discogs.com/sO7VPmcQLrWxwAjzvQlgCdg2jnfRbFGBrXDKVYzQtWY/rs:fit/g:sm/q:90/h:764/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyODYx/OTMtMTUzODMxNTg4/Ni0xNTIwLmpwZWc.jpeg",
+                "resource_url": "https://api.discogs.com/releases/2286193",
+                "community": {
+                    "want": 269,
+                    "have": 21
+                },
+                "format_quantity": 1,
+                "formats": [
+                    {
+                        "name": "Cassette",
+                        "qty": "1",
+                        "descriptions": [
+                            "Album",
+                            "Club Edition"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "status_code": 200,
+    "action_id": "g-1171aee9ec13aabf571fef17aa30e2cf33cdc0c6"
+}

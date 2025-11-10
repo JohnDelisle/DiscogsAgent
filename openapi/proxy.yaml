@@ -1,24 +1,94 @@
-openapi: 3.0.3
+openapi: 3.1.1
 info:
-  title: DiscogsAgent Proxy API
-  version: 0.1.0
+  title: DiscogsAgent API
+  version: 0.1.2
 servers:
-  - url: https://{host}
-    variables:
-      host:
-        default: example.azurewebsites.net
+  - url: https://{{FUNCTION_HOST}}/api
 components:
   securitySchemes:
     ApiKeyHeader:
       type: apiKey
       in: header
       name: x-api-key
+  schemas:
+    Artist:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        resource_url: { type: string }
+      additionalProperties: true
+    Release:
+      type: object
+      properties:
+        id: { type: integer }
+        year: { type: integer }
+        status: { type: string }
+        resource_url: { type: string }
+      additionalProperties: true
+    Pagination:
+      type: object
+      properties:
+        page: { type: integer }
+        pages: { type: integer }
+        per_page: { type: integer }
+        items: { type: integer }
+        urls:
+          type: object
+          properties:
+            first: { type: string }
+            prev: { type: string }
+            next: { type: string }
+            last: { type: string }
+          additionalProperties: true
+      additionalProperties: true
+    SearchResultItem:
+      type: object
+      properties:
+        id: { type: integer }
+        type: { type: string }
+        title: { type: string }
+        resource_url: { type: string }
+      additionalProperties: true
+    SearchResults:
+      type: object
+      properties:
+        pagination: { $ref: '#/components/schemas/Pagination' }
+        results:
+          type: array
+          items: { $ref: '#/components/schemas/SearchResultItem' }
+      required: [pagination, results]
+    ErrorResponse:
+      type: object
+      properties:
+        error: { type: string }
+        reason: { type: string }
+        trace_id: { type: string }
+      additionalProperties: true
 security:
   - ApiKeyHeader: []
 paths:
+  /ping:
+    get:
+      summary: Health check
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+        '401':
+          description: Unauthorized
   /artists/{artist_id}:
     get:
-      summary: Get an artist (proxied)
+      summary: Get an artist
+      description: Retrieves details for a specific artist.
       operationId: getArtistProxy
       parameters:
         - name: artist_id
@@ -30,13 +100,18 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'
         '404':
           description: Not found
         '401':
           description: Unauthorized
   /releases/{release_id}:
     get:
-      summary: Get a release (proxied)
+      summary: Get a release
+      description: Retrieves details for a specific release.
       operationId: getReleaseProxy
       parameters:
         - name: release_id
@@ -46,18 +121,411 @@ paths:
             type: integer
           example: 249504
       responses:
-        '200': { description: OK }
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
         '404': { description: Not found }
+        '401': { description: Unauthorized }
+  /masters/{master_id}:
+    get:
+      summary: Get a master release
+      description: Retrieves details for a specific master release.
+      operationId: getMasterProxy
+      parameters:
+        - name: master_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                additionalProperties: true
+        '404': { description: Not found }
+        '401': { description: Unauthorized }
+  /masters/{master_id}/versions:
+    get:
+      summary: List master versions
+      description: Retrieves versions for a specific master release.
+      operationId: listMasterVersionsProxy
+      parameters:
+        - name: master_id
+          in: path
+          required: true
+          schema: { type: integer }
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, default: 1 }
+        - in: query
+          name: per_page
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        '200':
+          description: OK
+          headers:
+            Link:
+              description: Pagination links per RFC 5988
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                additionalProperties: true
+        '401': { description: Unauthorized }
+  /labels/{label_id}:
+    get:
+      summary: Get a label
+      description: Retrieves details for a specific label.
+      operationId: getLabelProxy
+      parameters:
+        - name: label_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                additionalProperties: true
+        '404': { description: Not found }
+        '401': { description: Unauthorized }
+  /labels/{label_id}/releases:
+    get:
+      summary: List label releases
+      description: Retrieves releases for a specific label.
+      operationId: listLabelReleasesProxy
+      parameters:
+        - name: label_id
+          in: path
+          required: true
+          schema: { type: integer }
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, default: 1 }
+        - in: query
+          name: per_page
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        '200':
+          description: OK
+          headers:
+            Link:
+              description: Pagination links per RFC 5988
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                additionalProperties: true
+        '401': { description: Unauthorized }
+  /artists/{artist_id}/releases:
+    get:
+      summary: List artist releases
+      description: Retrieves releases for a specific artist.
+      operationId: listArtistReleasesProxy
+      parameters:
+        - name: artist_id
+          in: path
+          required: true
+          schema: { type: integer }
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, default: 1 }
+        - in: query
+          name: per_page
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+        - in: query
+          name: sort
+          schema: { type: string, enum: [year, title, format] }
+        - in: query
+          name: sort_order
+          schema: { type: string, enum: [asc, desc] }
+      responses:
+        '200':
+          description: OK
+          headers:
+            Link:
+              description: Pagination links per RFC 5988
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                additionalProperties: true
+        '401': { description: Unauthorized }
+  /users/{username}/collection/folders:
+    get:
+      summary: List collection folders
+      description: Lists collection folders for a user (requires PAT for private info).
+      operationId: listCollectionFoldersProxy
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+        '401': { description: Unauthorized }
+  /users/{username}/collection/folders/{folder_id}:
+    get:
+      summary: Get collection folder
+      operationId: getCollectionFolderProxy
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: { type: string }
+        - name: folder_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: OK }
+        '401': { description: Unauthorized }
+  /users/{username}/collection/folders/{folder_id}/releases:
+    get:
+      summary: List releases in a folder
+      operationId: listCollectionFolderReleasesProxy
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: { type: string }
+        - name: folder_id
+          in: path
+          required: true
+          schema: { type: integer }
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, default: 1 }
+        - in: query
+          name: per_page
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        '200': { description: OK }
+        '401': { description: Unauthorized }
+  /users/{username}/collection/folders/{folder_id}/releases/{release_id}:
+    post:
+      summary: Add release to collection folder
+      operationId: addToCollectionProxy
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: { type: string }
+        - name: folder_id
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: release_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '201': { description: Created }
+        '204': { description: No Content }
+        '401': { description: Unauthorized }
+  /users/{username}/wants:
+    get:
+      summary: List wantlist
+      operationId: listWantlistProxy
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: { type: string }
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, default: 1 }
+        - in: query
+          name: per_page
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        '200': { description: OK }
+        '401': { description: Unauthorized }
+  /users/{username}/wants/{release_id}:
+    put:
+      summary: Add or update wantlist item
+      operationId: upsertWantlistProxy
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: { type: string }
+        - name: release_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '201': { description: Created }
+        '204': { description: No Content }
+        '401': { description: Unauthorized }
+    delete:
+      summary: Delete wantlist item
+      operationId: deleteWantlistProxy
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: { type: string }
+        - name: release_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '204': { description: No Content }
+        '401': { description: Unauthorized }
+  /marketplace/listings:
+    post:
+      summary: Create marketplace listing
+      operationId: createMarketplaceListingProxy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+              additionalProperties: true
+      responses:
+        '201': { description: Created }
+        '401': { description: Unauthorized }
+  /marketplace/listings/{listing_id}:
+    get:
+      summary: Get marketplace listing
+      operationId: getMarketplaceListingProxy
+      parameters:
+        - name: listing_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: OK }
+        '401': { description: Unauthorized }
+    delete:
+      summary: Delete marketplace listing
+      operationId: deleteMarketplaceListingProxy
+      parameters:
+        - name: listing_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '204': { description: No Content }
+        '401': { description: Unauthorized }
+  /marketplace/price_suggestions/{release_id}:
+    get:
+      summary: Get price suggestions
+      operationId: getPriceSuggestionsProxy
+      parameters:
+        - name: release_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: OK }
         '401': { description: Unauthorized }
   /database/search:
     get:
-      summary: Search database (proxied)
+      summary: Search the database
+      description: "Search Discogs. Prefer structured filters over free-text 'q'. Example: artist=Björk&year=1994&country=Canada&type=release&format=Album. Using structured filters improves precision and reduces irrelevant matches."
       operationId: searchDatabaseProxy
       parameters:
         - in: query
           name: q
           schema: { type: string }
           description: Free text query
+        - in: query
+          name: artist
+          schema: { type: string }
+          description: Artist name (use instead of embedding artist in `q` when possible)
+          example: Björk
+        - in: query
+          name: title
+          schema: { type: string }
+          description: Combined "Artist Name - Release Title" search field
+          example: "The Cure - Disintegration"
+        - in: query
+          name: release_title
+          schema: { type: string }
+          description: Release title (use when you want title-only filtering)
+          example: Disintegration
+        - in: query
+          name: credit
+          schema: { type: string }
+          description: Release credit (e.g. producer, engineer)
+          example: Robert Smith
+        - in: query
+          name: anv
+          schema: { type: string }
+          description: Artist Name Variation (ANV)
+        - in: query
+          name: label
+          schema: { type: string }
+          description: Label name
+          example: Fiction Records
+        - in: query
+          name: genre
+          schema: { type: string }
+          description: Genre name
+          example: Rock
+        - in: query
+          name: style
+          schema: { type: string }
+          description: Style name
+          example: Gothic Rock
+        - in: query
+          name: year
+          schema: { type: string }
+          description: Release year (exact or range; e.g. `1994` or `1992-1994`)
+          example: 1994
+        - in: query
+          name: country
+          schema: { type: string }
+          description: Country code or name (e.g. `Canada` or `CA`)
+          example: Canada
+        - in: query
+          name: format
+          schema: { type: string }
+          description: Medium/format filter (e.g. `Album`, `Vinyl`, `CD`)
+          example: Album
+        - in: query
+          name: catno
+          schema: { type: string }
+          description: Catalog number
+          example: FIXH 14
+        - in: query
+          name: barcode
+          schema: { type: string }
+          description: Barcode value
+          example: 042283923518
+        - in: query
+          name: track
+          schema: { type: string }
+          description: Track title
+          example: Lovesong
+        - in: query
+          name: submitter
+          schema: { type: string }
+          description: Submission username
+        - in: query
+          name: contributor
+          schema: { type: string }
+          description: Contributor username
         - in: query
           name: type
           schema: { type: string, enum: [release, master, artist, label] }
@@ -68,5 +536,24 @@ paths:
           name: per_page
           schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
       responses:
-        '200': { description: OK }
+        '200':
+          description: OK
+          headers:
+            Link:
+              description: Pagination links per RFC 5988
+              schema:
+                type: string
+            X-Discogs-Ratelimit:
+              description: Total allowed requests in window
+              schema: { type: string }
+            X-Discogs-Ratelimit-Used:
+              description: Requests used in window
+              schema: { type: string }
+            X-Discogs-Ratelimit-Remaining:
+              description: Requests remaining in window
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
         '401': { description: Unauthorized }

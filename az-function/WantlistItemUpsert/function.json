@@ -1,0 +1,7 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+  {"authLevel": "anonymous", "type": "httpTrigger", "direction": "in", "name": "req", "methods": ["put"], "route": "users/{username}/wants/{release_id}"},
+    {"type": "http", "direction": "out", "name": "$return"}
+  ]
+}

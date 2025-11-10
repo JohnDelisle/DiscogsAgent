@@ -1,0 +1,7 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+  {"authLevel": "anonymous", "type": "httpTrigger", "direction": "in", "name": "req", "methods": ["post"], "route": "users/{username}/collection/folders/{folder_id}/releases/{release_id}"},
+    {"type": "http", "direction": "out", "name": "$return"}
+  ]
+}
